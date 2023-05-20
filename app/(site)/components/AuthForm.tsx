@@ -7,6 +7,8 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import AuthSocialButton from './AuthSocialButton';
 import { BsGithub, BsGoogle } from 'react-icons/bs';
 import axios from 'axios';
+import { toast } from 'react-hot-toast';
+import { signIn } from 'next-auth/react';
 
 type variant = 'LOGIN' | 'REGISTER';
 
@@ -37,16 +39,39 @@ const AuthForm = () => {
 	const onSubmit: SubmitHandler<FieldValues> = (data) => {
 		setIsLoading(true);
 		if (variant === 'REGISTER') {
-			axios.post('/api/register', data);
+			axios
+				.post('/api/register', data)
+				.catch(() => toast.error('Something went wrong!'))
+				.finally(() => setIsLoading(false));
 		}
 		if (variant === 'LOGIN') {
-			// axios login
+			signIn('credentials', {
+				...data,
+				redirect: false,
+			})
+				.then((callback) => {
+					if (callback?.error) {
+						toast.error('Invalid Credentials!');
+					} else if (callback?.ok) {
+						toast.success('Logged In!');
+					}
+				})
+				.finally(() => setIsLoading(false));
 		}
 	};
 
 	const socialAction = (action: string) => {
 		setIsLoading(true);
-		//social sign in
+
+		signIn(action, { redirect: false })
+			.then((callback) => {
+				if (callback?.error) {
+					toast.error('Invalid Credentials!');
+				} else if (callback?.ok) {
+					toast.success('Logged In!');
+				}
+			})
+			.finally(() => setIsLoading(false));
 	};
 
 	return (
@@ -61,6 +86,7 @@ const AuthForm = () => {
 				<form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
 					{variant === 'REGISTER' && (
 						<Input
+							type="name"
 							id="name"
 							label="Name"
 							register={register}
@@ -69,6 +95,7 @@ const AuthForm = () => {
 						/>
 					)}
 					<Input
+						type="email"
 						id="email"
 						label="Email address"
 						register={register}
@@ -77,6 +104,7 @@ const AuthForm = () => {
 					/>
 					<Input
 						id="password"
+						type="password"
 						label="Password"
 						register={register}
 						disabled={isLoading}
@@ -106,11 +134,11 @@ const AuthForm = () => {
 					<div className="mt-6 flex gap-2">
 						<AuthSocialButton
 							icons={BsGoogle}
-							onClick={() => socialAction('github')}
+							onClick={() => socialAction('google')}
 						/>
 						<AuthSocialButton
 							icons={BsGithub}
-							onClick={() => socialAction('google')}
+							onClick={() => socialAction('github')}
 						/>
 					</div>
 				</div>
