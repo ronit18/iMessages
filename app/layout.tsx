@@ -1,11 +1,12 @@
-import "./globals.css";
-import { Inter } from "next/font/google";
+import ToasterContext from './context/ToasterContext';
+import './globals.css';
+import { Inter } from 'next/font/google';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-	title: "iMessages",
-	description: "iMessages app.",
+	title: 'iMessages',
+	description: 'iMessages app.',
 };
 
 export default function RootLayout({
@@ -15,7 +16,10 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en">
-			<body className={inter.className}>{children}</body>
+			<body className={inter.className}>
+				<ToasterContext />
+				{children}
+			</body>
 		</html>
 	);
 }
