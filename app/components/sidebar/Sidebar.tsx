@@ -1,9 +1,11 @@
 import DesktopSiderbar from './DesktopSiderbar';
+import MobileFooter from './MobileFooter';
 
 async function Sidebar({ children }: { children: React.ReactNode }) {
 	return (
 		<div className="h-full">
 			<DesktopSiderbar />
+			<MobileFooter />
 			<main className="lg:pl-20 h-full">{children}</main>
 		</div>
 	);
