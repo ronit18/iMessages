@@ -1,11 +1,13 @@
 'use client';
 
 import Avatar from '@/app/components/Avatar';
+import ConfirmModal from '@/app/components/Modals/ConfirmModal';
+import Modal from '@/app/components/Modals/Modal';
 import useOtherUser from '@/app/hooks/useOtherUser';
 import { Dialog, Transition } from '@headlessui/react';
 import { Conversation, User } from '@prisma/client';
 import format from 'date-fns/format';
-import { Fragment, useMemo } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import { IoClose, IoTrash } from 'react-icons/io5';
 
 interface ProfileDrawerProps {
@@ -23,6 +25,8 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
 }) => {
 	const otherUser = useOtherUser(data);
 
+	const [confirmOpen, setConfirmOpen] = useState(false);
+
 	const joinedDate = useMemo(() => {
 		return format(new Date(otherUser.createdAt), 'PP');
 	}, [otherUser]);
@@ -35,8 +39,14 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
 		if (data.isGroup) return `${data.users.length} memebers`;
 		return 'Active';
 	}, [data]);
+
 	return (
 		<>
+			<ConfirmModal
+				isOpen={confirmOpen}
+				onClose={() => setConfirmOpen(false)}
+			/>
+
 			<Transition.Root show={isOpen} as={Fragment}>
 				<Dialog as="div" className="relative z-50" onClose={onClose}>
 					<Transition.Child
@@ -100,7 +110,14 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
 														{statusText}
 													</div>
 													<div className="flex gap-10 my-8">
-														<div className="flex flex-col gap-3 items-center cursor-pointer hover:opacity-75">
+														<div
+															onClick={() =>
+																setConfirmOpen(
+																	true
+																)
+															}
+															className="flex flex-col gap-3 items-center cursor-pointer hover:opacity-75"
+														>
 															<div className="w-10 h-10 bg-neutral-100 rounded-full flex items-center justify-center">
 																<IoTrash
 																	size={20}
@@ -117,22 +134,22 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
 																<div>
 																	<dt
 																		className="
-									text-sm 
-									font-medium 
-									text-gray-500 
-									sm:w-40 
-									sm:flex-shrink-0
-								  "
+																			text-sm 
+																			font-medium 
+																			text-gray-500 
+																			sm:w-40 
+																			sm:flex-shrink-0
+																		"
 																	>
 																		Emails
 																	</dt>
 																	<dd
 																		className="
-									mt-1 
-									text-sm 
-									text-gray-900 
-									sm:col-span-2
-								  "
+																		mt-1 
+																		text-sm 
+																		text-gray-900 
+																		sm:col-span-2
+																	"
 																	>
 																		{data.users
 																			.map(
@@ -151,22 +168,22 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
 																<div>
 																	<dt
 																		className="
-									text-sm 
-									font-medium 
-									text-gray-500 
-									sm:w-40 
-									sm:flex-shrink-0
-								  "
+																			text-sm 
+																			font-medium 
+																			text-gray-500 
+																			sm:w-40 
+																			sm:flex-shrink-0
+																		"
 																	>
 																		Email
 																	</dt>
 																	<dd
 																		className="
-									mt-1 
-									text-sm 
-									text-gray-900 
-									sm:col-span-2
-								  "
+																			mt-1 
+																			text-sm 
+																			text-gray-900 
+																			sm:col-span-2
+																		"
 																	>
 																		{
 																			otherUser.email
@@ -180,22 +197,22 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
 																	<div>
 																		<dt
 																			className="
-									  text-sm 
-									  font-medium 
-									  text-gray-500 
-									  sm:w-40 
-									  sm:flex-shrink-0
-									"
+																				text-sm 
+																				font-medium 
+																				text-gray-500 
+																				sm:w-40 
+																				sm:flex-shrink-0
+																				"
 																		>
 																			Joined
 																		</dt>
 																		<dd
 																			className="
-									  mt-1 
-									  text-sm 
-									  text-gray-900 
-									  sm:col-span-2
-									"
+																				mt-1 
+																				text-sm 
+																				text-gray-900 
+																				sm:col-span-2
+																				"
 																		>
 																			<time
 																				dateTime={
