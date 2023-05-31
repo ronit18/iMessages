@@ -8,6 +8,7 @@ import { toast } from 'react-hot-toast';
 import Modal from './Modal';
 import { FiAlertTriangle } from 'react-icons/fi';
 import { Dialog } from '@headlessui/react';
+import Button from '../Button';
 
 interface ConfirmModalProps {
 	isOpen?: boolean;
@@ -36,7 +37,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({ isOpen, onClose }) => {
 
 	return (
 		<Modal isOpen={isOpen} onClose={onClose}>
-			<div className="sm:flex sm:items-start">
+			<div className="sm:flex sm:items-start ">
 				<div
 					className="mx-auto 
 						flex 
@@ -52,11 +53,32 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({ isOpen, onClose }) => {
 						sm:w-10
 					"
 				>
-					<FiAlertTriangle className="h-6 w-6 " />
+					<FiAlertTriangle className="h-6 w-6  text-red-500" />
 				</div>
 				<div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-					<Dialog.Title as="h3"></Dialog.Title>
+					<Dialog.Title
+						as="h3"
+						className="text-base font-semibold leading-6 text-gray-600"
+					>
+						Delete conversation?
+					</Dialog.Title>
+					<div className="mt-2">
+						<p>
+							{' '}
+							Are you sure you want to delte this conversation?
+							This action cannot be undone.
+						</p>
+					</div>
 				</div>
+			</div>
+
+			<div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+				<Button danger onClick={onDelete} disabled={isLoading}>
+					Delete
+				</Button>
+				<Button secondry onClick={onClose} disabled={isLoading}>
+					Cancel
+				</Button>
 			</div>
 		</Modal>
 	);
