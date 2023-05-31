@@ -54,7 +54,10 @@ export async function POST(request: Request, { params }: { params: IParams }) {
 		});
 		return NextResponse.json(updatedMessage);
 	} catch (error: any) {
-		console.log('Error in seen Messages', error);
+		console.log(
+			'error in conversations/[conversationId]/seen/route.ts: ',
+			error
+		);
 		return new NextResponse('Internal Error', { status: 500 });
 	}
 }

@@ -40,7 +40,10 @@ export async function DELETE(
 
 		return NextResponse.json(deleteConversation);
 	} catch (error: any) {
-		console.log('error in [conversationId]/route.ts: ', error);
+		console.log(
+			'error in conversations/[conversationId]/route.ts: ',
+			error
+		);
 		return new NextResponse('Internal Error', { status: 500 });
 	}
 }

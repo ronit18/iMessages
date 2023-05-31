@@ -22,7 +22,7 @@ export async function POST(request: Request) {
 
 		return NextResponse.json(user);
 	} catch (error: any) {
-		console.log('error in registration', error);
+		console.log('error in register/route.ts', error);
 		return new NextResponse('Internal Error', { status: 500 });
 	}
 }

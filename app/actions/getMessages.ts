@@ -16,7 +16,7 @@ const getMessages = async (conversationId: string) => {
 		});
 		return messages;
 	} catch (error: any) {
-		console.log(error);
+		console.log('Error in actions/getMessages: ', error);
 		return [];
 	}
 };

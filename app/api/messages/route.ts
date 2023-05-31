@@ -58,7 +58,7 @@ export async function POST(request: Request) {
 		});
 		return NextResponse.json(newMessage);
 	} catch (error: any) {
-		console.log('Error in Messages', error);
+		console.log('Error in messages/route.ts: ', error);
 		return new NextResponse('InternalError', { status: 500 });
 	}
 }
