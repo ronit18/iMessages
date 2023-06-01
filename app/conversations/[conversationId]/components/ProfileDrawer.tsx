@@ -1,6 +1,7 @@
 'use client';
 
 import Avatar from '@/app/components/Avatar';
+import AvatarGroup from '@/app/components/AvatarGroup';
 import ConfirmModal from '@/app/components/Modals/ConfirmModal';
 import Modal from '@/app/components/Modals/Modal';
 import useOtherUser from '@/app/hooks/useOtherUser';
@@ -46,7 +47,6 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
 				isOpen={confirmOpen}
 				onClose={() => setConfirmOpen(false)}
 			/>
-
 			<Transition.Root show={isOpen} as={Fragment}>
 				<Dialog as="div" className="relative z-50" onClose={onClose}>
 					<Transition.Child
@@ -80,7 +80,7 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
 													<div className="ml-3 flex h-7 items-center">
 														<button
 															type="button"
-															className="rounded-full bg-neutral-100 w-7 h-7 items-center flex justify-center  text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+															className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
 															onClick={onClose}
 														>
 															<span className="sr-only">
@@ -98,7 +98,11 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
 												<div className="flex flex-col items-center">
 													<div className="mb-2">
 														{data.isGroup ? (
-															''
+															<AvatarGroup
+																users={
+																	data.users
+																}
+															/>
 														) : (
 															<Avatar
 																user={otherUser}
