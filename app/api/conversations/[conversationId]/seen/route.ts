@@ -55,13 +55,14 @@ export async function POST(request: Request, { params }: { params: IParams }) {
 			},
 		});
 
-		await pusherServer.trigger(currentUser.email, 'conersation:update', {
+		await pusherServer.trigger(currentUser.email, 'conversation:update', {
 			id: conversationId,
 			messages: [updatedMessage],
 		});
 
-		if (lastMessage.seenIds.indexOf(currentUser.id) !== -1)
+		if (lastMessage.seenIds.indexOf(currentUser.id) !== -1) {
 			return NextResponse.json(conversation);
+		}
 
 		await pusherServer.trigger(
 			conversationId!,
