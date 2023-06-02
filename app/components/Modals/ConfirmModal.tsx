@@ -69,7 +69,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({ isOpen, onClose }) => {
 						<div className="mt-2">
 							<p>
 								{' '}
-								Are you sure you want to delte this
+								Are you sure you want to Delete this
 								conversation? This action cannot be undone.
 							</p>
 						</div>
