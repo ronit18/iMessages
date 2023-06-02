@@ -4,6 +4,7 @@ import Avatar from '@/app/components/Avatar';
 import AvatarGroup from '@/app/components/AvatarGroup';
 import ConfirmModal from '@/app/components/Modals/ConfirmModal';
 import Modal from '@/app/components/Modals/Modal';
+import useActiveList from '@/app/hooks/useActiveList';
 import useOtherUser from '@/app/hooks/useOtherUser';
 import { Dialog, Transition } from '@headlessui/react';
 import { Conversation, User } from '@prisma/client';
@@ -24,7 +25,11 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
 	isOpen,
 	onClose,
 }) => {
+	const { members } = useActiveList();
+
 	const otherUser = useOtherUser(data);
+
+	const isActive = members.indexOf(otherUser?.email!) !== -1;
 
 	const [confirmOpen, setConfirmOpen] = useState(false);
 
@@ -38,8 +43,8 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
 
 	const statusText = useMemo(() => {
 		if (data.isGroup) return `${data.users.length} memebers`;
-		return 'Active';
-	}, [data]);
+		return isActive ? 'Active' : 'Offline';
+	}, [data, isActive]);
 
 	return (
 		<>
